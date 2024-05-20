@@ -3,7 +3,8 @@ import './App.scss'
 import avatar from './images/bozai.png'
 import _ from 'lodash'
 import classNames from 'classnames'
-
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs'
 /**
   * Rendering and operation of comment list
   *
@@ -113,14 +114,14 @@ const App = () => {
     setCommentList([
       ...commentList,
       {
-        rpid: 100,
+        rpid: uuidv4(), //random id 
         user: {
           uid: '30009257',
           avatar,
           uname: 'Dark Horse Front End',
         },
         content: content, 
-        ctime: '10-19 09:00',
+        ctime: dayjs(new Date()).format('MM-DD hh:mm'), // format month-date hour:minute
         like: 66,
       }
     ])
