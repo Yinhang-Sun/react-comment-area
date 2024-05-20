@@ -80,11 +80,8 @@ const tabs = [
   { type: 'time', text: 'Latest' },
 ]
 
-
-const App = () => {
-  //1. Use useState to maintain the list
-  // const [commentList, setCommentList] = useState(_.orderBy(defaultList, 'like', 'desc'))
-
+// Encapsulate Hook for requesting data 
+function useGetList() {
   // Get the api data and render it 
   const [commentList, setCommentList] = useState([])
 
@@ -97,6 +94,20 @@ const App = () => {
     }
     getList()
   }, [])
+
+  return {
+    commentList, 
+    setCommentList
+  }
+
+}
+
+const App = () => {
+  //1. Use useState to maintain the list
+  // const [commentList, setCommentList] = useState(_.orderBy(defaultList, 'like', 'desc'))
+
+  // using hook to get data list for rendering 
+  const { commentList, setCommentList } = useGetList()
 
   //Delete comment function 
   const handleDelete = (id) => {
