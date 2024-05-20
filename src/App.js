@@ -102,7 +102,7 @@ function useGetList() {
 }
 
 // Encapsulate Item component 
-function Item({ item, onDelete}) {
+function Item({ item, onDelete }) {
   return (
     <div className="reply-item">
       {/* avatar */}
@@ -250,7 +250,7 @@ const App = () => {
         <div className="reply-list">
           {/* Comment item */}
           {commentList.map(item => (
-            <Item key={item.id} item={item} onDelete={handleDelete}/>
+            <Item key={item.id} item={item} onDelete={handleDelete} />
           ))}
         </div>
       </div>
