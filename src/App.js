@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.scss'
 import avatar from './images/bozai.png'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import classNames from 'classnames'
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs'
+import axios from 'axios'
+
 /**
   * Rendering and operation of comment list
   *
@@ -52,6 +54,7 @@ const defaultList = [
     like: 66,
   },
 ]
+
 // Current logged in user information
 const user = {
   // user id
@@ -80,7 +83,20 @@ const tabs = [
 
 const App = () => {
   //1. Use useState to maintain the list
-  const [commentList, setCommentList] = useState(_.orderBy(defaultList, 'like', 'desc'))
+  // const [commentList, setCommentList] = useState(_.orderBy(defaultList, 'like', 'desc'))
+
+  // Get the api data and render it 
+  const [commentList, setCommentList] = useState([])
+
+  useEffect(() => {
+    //Request data 
+    async function getList() {
+      // axios request data 
+      const res = await axios.get('http://localhost:3004/list')
+      setCommentList(res.data)
+    }
+    getList()
+  }, [])
 
   //Delete comment function 
   const handleDelete = (id) => {
@@ -110,6 +126,7 @@ const App = () => {
 
   // Publish comment 
   const [content, setContent] = useState('')
+  const inputRef = useRef(null)
   const handlePublish = () => {
     setCommentList([
       ...commentList,
@@ -125,6 +142,11 @@ const App = () => {
         like: 66,
       }
     ])
+    // 1. clear the input box 
+    setContent('')
+
+    // 2. focus again : get dom -> focus 
+    inputRef.current.focus()
   }
 
   return (
@@ -164,6 +186,7 @@ const App = () => {
             <textarea
               className="reply-box-textarea"
               placeholder="Publish a friendly comment"
+              ref={inputRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
