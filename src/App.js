@@ -107,6 +107,25 @@ const App = () => {
     }
   }
 
+  // Publish comment 
+  const [content, setContent] = useState('')
+  const handlePublish = () => {
+    setCommentList([
+      ...commentList,
+      {
+        rpid: 100,
+        user: {
+          uid: '30009257',
+          avatar,
+          uname: 'Dark Horse Front End',
+        },
+        content: content, 
+        ctime: '10-19 09:00',
+        like: 66,
+      }
+    ])
+  }
+
   return (
     <div className="app">
       {/* Navigation Tab */}
@@ -143,11 +162,13 @@ const App = () => {
             {/* Comment box */}
             <textarea
               className="reply-box-textarea"
-              placeholder="Send a friendly comment"
+              placeholder="Publish a friendly comment"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
             {/* Publish button */}
             <div className="reply-box-send">
-              <div className="send-text">Publish</div>
+              <div className="send-text" onClick={handlePublish}>Publish</div>
             </div>
           </div>
         </div>
