@@ -96,10 +96,49 @@ function useGetList() {
   }, [])
 
   return {
-    commentList, 
+    commentList,
     setCommentList
   }
+}
 
+// Encapsulate Item component 
+function Item({ item, onDelete}) {
+  return (
+    <div className="reply-item">
+      {/* avatar */}
+      <div className="root-reply-avatar">
+        <div className="bili-avatar">
+          <img
+            className="bili-avatar-img"
+            alt=""
+            src={item.user.avatar}
+          />
+        </div>
+      </div>
+
+      <div className="content-wrap">
+        {/* username */}
+        <div className="user-info">
+          <div className="user-name">{item.user.uname}</div>
+        </div>
+        {/* comments */}
+        <div className="root-reply">
+          <span className="reply-content">{item.content}</span>
+          <div className="reply-info">
+            {/*Comment time */}
+            <span className="reply-time">{item.ctime}</span>
+            {/* Number of comments */}
+            <span className="reply-time">Likes:{item.like}</span>
+            {/* user.uid === item.user.uid, show Delete button */}
+            {user.uid === item.user.uid &&
+              <span className="delete-btn" onClick={() => onDelete(item.rpid)}>
+                Delete
+              </span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 const App = () => {
@@ -125,7 +164,7 @@ const App = () => {
     console.log(type)
     setType(type)
     //Sorting by comment list 
-    if(type === 'hot') {
+    if (type === 'hot') {
       // sort by likes number 
       //lodash
       setCommentList(_.orderBy(commentList, 'like', 'desc'))
@@ -148,7 +187,7 @@ const App = () => {
           avatar,
           uname: 'Dark Horse Front End',
         },
-        content: content, 
+        content: content,
         ctime: dayjs(new Date()).format('MM-DD hh:mm'), // format month-date hour:minute
         like: 66,
       }
@@ -211,40 +250,7 @@ const App = () => {
         <div className="reply-list">
           {/* Comment item */}
           {commentList.map(item => (
-            <div key={item.rpid} className="reply-item">
-              {/* avatar */}
-              <div className="root-reply-avatar">
-                <div className="bili-avatar">
-                  <img
-                    className="bili-avatar-img"
-                    alt=""
-                    src={item.user.avatar}
-                  />
-                </div>
-              </div>
-
-              <div className="content-wrap">
-                {/* username */}
-                <div className="user-info">
-                  <div className="user-name">{item.user.uname}</div>
-                </div>
-                {/* comments */}
-                <div className="root-reply">
-                  <span className="reply-content">{item.content}</span>
-                  <div className="reply-info">
-                    {/*Comment time */}
-                    <span className="reply-time">{item.ctime}</span>
-                    {/* Number of comments */}
-                    <span className="reply-time">Likes:{item.like}</span>
-                    {/* user.uid === item.user.uid, show Delete button */}
-                    {user.uid === item.user.uid &&
-                      <span className="delete-btn" onClick={() => handleDelete(item.rpid)}>
-                        Delete
-                      </span>}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Item key={item.id} item={item} onDelete={handleDelete}/>
           ))}
         </div>
       </div>
