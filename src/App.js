@@ -17,7 +17,7 @@ import axios from 'axios'
 // Comment list data
 const defaultList = [
   {
-    // comment id
+    // Comment id
     rpid: 3,
     // User Info
     user: {
