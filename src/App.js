@@ -27,7 +27,7 @@ const defaultList = [
     },
     // comments
     content: 'Oh, not bad',
-    //Comment time
+    // comment time
     ctime: '10-18 08:15',
     like: 100,
   },
